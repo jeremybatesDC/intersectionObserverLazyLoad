@@ -1,6 +1,6 @@
 # intersectionObserverLazyLoad
 
-```
+```typescript
 export default class LazyLoadClass {
 	lazyLoadOptions: any;
 	lazyLoadOptionsGivenToConstructor: any;
