@@ -1,3 +1,6 @@
+### intersection observer lazy load script
+
+
 ```typescript
 export default class LazyLoadClass {
 	lazyLoadOptions: any;
