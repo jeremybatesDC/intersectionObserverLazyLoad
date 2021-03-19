@@ -1,0 +1,68 @@
+img[data-load='lazy'] {
+	// to preserve space this must always stretch
+	width: 100%;
+	min-width: 100%;
+	max-width: 100%;
+	// fallback for broken image link uses background-image
+	// so I need these set before errorState to avoid unwanted transition of background-position
+	background-repeat: no-repeat;
+	background-position: center center;
+	opacity: 0;
+	transition: opacity 1s ease;
+
+	// on lazy load complete, fade-in image with some necessary supporting styles
+	&[data-lazy-loaded='lazyLoadComplete'] {
+		// test for any jumping
+		// i didnT want to mess with width and height again here
+		// but otherwise we are overriding component image styles
+		width: auto;
+		min-width: auto;
+		opacity: 1;
+	}
+	// on lazy load error, show fallback image
+	&[data-lazy-loaded='lazyLoadError'] {
+		background-color: #23527c;
+		background-size: 100px 100px;
+		opacity: 1;
+	}
+}
+
+[data-style] {
+	will-change: background-color;
+	&[data-lazy-loaded='lazyLoadComplete'] {
+		// some components have their own transitions
+		// so avoid conflict and confine actions to an animation
+		// that is less likely to cause collision
+
+		animation-name: changeBlendMode;
+		animation-duration: 1s;
+		// [class*='dark-mode'] & {
+		// 	background-color: #0a223f;
+		// }
+	}
+	// [class*='dark-mode'] & {
+	// 	background-color: #0a223f;
+	// }
+
+	// prevent nested delays
+	[data-style] {
+		animation: none;
+		&[data-lazy-loaded='lazyLoadComplete'] {
+			animation: none;
+		}
+	}
+}
+
+@keyframes changeBlendMode {
+	from {
+		background-color: #0a223f;
+		background-blend-mode: soft-light;
+	}
+	// 99% {
+	// 	background-blend-mode: hard-light;
+	// }
+	100% {
+		background-color: transparent;
+		background-blend-mode: hard-light;
+	}
+}
